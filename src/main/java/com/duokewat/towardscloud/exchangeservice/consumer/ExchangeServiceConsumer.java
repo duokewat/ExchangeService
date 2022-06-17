@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.devtools.remote.client.HttpHeaderInterceptor;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.stereotype.Service;
@@ -29,9 +28,9 @@ public class ExchangeServiceConsumer {
 	
 	public String getExchangedDetail(ExchangeRequest request) {
 		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-		interceptors.add(new HttpHeaderInterceptor("ContentType", MediaType.APPLICATION_JSON_VALUE));
-		interceptors.add(new HttpHeaderInterceptor("X-RapidAPI-Host", apiHost));
-		interceptors.add(new HttpHeaderInterceptor("RapidAPI-Key", key));
+		interceptors.add(new HeaderRequestInterceptor("ContentType", MediaType.APPLICATION_JSON_VALUE));
+		interceptors.add(new HeaderRequestInterceptor("X-RapidAPI-Host", apiHost));
+		interceptors.add(new HeaderRequestInterceptor("RapidAPI-Key", key));
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setInterceptors(interceptors);
 		return restTemplate.getForObject(getUrl(request),String.class);

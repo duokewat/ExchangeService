@@ -30,6 +30,13 @@ public class ExchangeController {
 		exchangeResponse.setFrom(request.getFrom());
 		exchangeResponse.setTo(request.getTo());
 		exchangeResponse.setValue(exchangeServiceConsumer.getExchangedDetail(request));
+		
+		 log.debug("exchangeResponse {} " , exchangeResponse);
 		return exchangeResponse;
     }
+	
+	@RequestMapping("/ruok")
+    public String ruok() {
+        return "Yes, I am Okay !";
+    } 
 }

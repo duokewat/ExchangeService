@@ -12,9 +12,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.duokewat.towardscloud.exchangeservice.view.ExchangeRequest;
 
+import lombok.extern.slf4j.Slf4j;
+
 
 
 @Service
+@Slf4j
 public class ExchangeServiceConsumer {
 	
 	@Value( "${exchange.host}" )
@@ -28,6 +31,13 @@ public class ExchangeServiceConsumer {
 	
 	
 	public BigDecimal getExchangedDetail(ExchangeRequest request) {
+		log.debug("Inside getExchangedDetail()");
+		
+		log.debug("apiHost '{}'",apiHost);
+		log.debug("key '{}'",key);
+		log.debug("url '{}'",url);
+		
+		
 		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
 		interceptors.add(new HeaderRequestInterceptor("ContentType", MediaType.APPLICATION_JSON_VALUE));
 		interceptors.add(new HeaderRequestInterceptor("X-RapidAPI-Host", apiHost));
@@ -35,7 +45,14 @@ public class ExchangeServiceConsumer {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setInterceptors(interceptors);
 		
-		return new BigDecimal(restTemplate.getForObject(getUrl(request),String.class));
+		String finalUrl = getUrl(request);
+		log.debug("finalUrl '{}'",finalUrl);
+		
+		BigDecimal exchangeAmount = new BigDecimal(restTemplate.getForObject(finalUrl,String.class));
+		log.debug("Post Cloud API call");
+		log.debug("exchangeAmount '{}'",exchangeAmount);
+		
+		return exchangeAmount;
 	}
 	
 	private String getUrl(ExchangeRequest exchange) {

@@ -1,5 +1,6 @@
 package com.duokewat.towardscloud.exchangeservice.consumer;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +27,15 @@ public class ExchangeServiceConsumer {
 	private String url;
 	
 	
-	public String getExchangedDetail(ExchangeRequest request) {
+	public BigDecimal getExchangedDetail(ExchangeRequest request) {
 		List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
 		interceptors.add(new HeaderRequestInterceptor("ContentType", MediaType.APPLICATION_JSON_VALUE));
 		interceptors.add(new HeaderRequestInterceptor("X-RapidAPI-Host", apiHost));
 		interceptors.add(new HeaderRequestInterceptor("RapidAPI-Key", key));
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setInterceptors(interceptors);
-		return restTemplate.getForObject(getUrl(request),String.class);
+		
+		return new BigDecimal(restTemplate.getForObject(getUrl(request),String.class));
 	}
 	
 	private String getUrl(ExchangeRequest exchange) {

@@ -13,7 +13,7 @@ import com.duokewat.towardscloud.exchangeservice.view.ExchangeResponse;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/currency")
+@RequestMapping("/currency/api/v1")
 @Slf4j
 public class ExchangeController {
 	
